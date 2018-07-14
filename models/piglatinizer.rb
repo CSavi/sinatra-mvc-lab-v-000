@@ -2,14 +2,27 @@ class PigLatinizer
 
   attr_reader :text
 
+  def initialize
+    @text = text 
+  end   
+
 
   def piglatinize(text)
-    @text = text
     #split words in an array
-    text_array = @text.split(" ")
+    words = text.split(" ")
 
     #iterate over words and add
-    new_array = text_array.collect do |word|
+    words_array = words.collect do |word|
+      vowel_i = words.index('#{word.scan(/[AEIOUaeiou]).first}')
+      sliced_words = word.slice!(0,vowel_i)
+
+      puts '#{vowel_i}'
+      word << "#{sliced_words} #{"w" if vowel_i == 0}ay"
+      end
+      new_phrase.join(" ")
+   end 
+end       
+      
       if word.slice(0,1) =~ (/[AEIOUaeiou]/)
         word = word + "way"
       else
