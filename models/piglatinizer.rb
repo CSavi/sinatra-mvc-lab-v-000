@@ -1,30 +1,37 @@
 class PigLatinizer
 
-  attr_reader :text
-
-  def initialize
-  end
-
-
+  +    attr_accessor :word
   +
-  +  def piglatinize(text)
-  +    @text = text
-  +    #split text into an array of words
-  +    words = @text.split(" ")
-  +    #collect pig latin versions of words
-  +    pig_words = words.map do |word|
-  +      #find first vowel as an index of the array ([word] per iteration)
-  +      vowel_index = word.index("#{word.scan(/[AEIOUaeiou]/).first}") #first scanned vowel's index
-  +      #slice! deletes and returns deleted content
-  +      removed_portion = word.slice!(0,vowel_index) #remove form start until vowel (can => c)
-  +      #take remaining portion and add removed_portion to end + ay(way depending on if first letter == vowel)
-  +      #ex1:egg=> eggway --ex2:dck => uck + d + ay => uckday
-  +      puts "#{vowel_index}"
-
-  +      word << "#{removed_portion}#{"w" if vowel_index == 0}ay" #0 indicates first letter == vowel
+  +    def initialize
   +    end
-  +    #put pig words together as spaced text
-  +    pig_words.join(" ")
-  +  end
+  +
+  +    def piglatinize(sentence)
+  +
+  +        words = sentence.split(" ")
+  +        output = []
+  +
+  +        words.each do |word|
+  +            count = 0
+  +            word.split("").each do |i|
+  +              if i =~ /[^AEIOUaeiou]/
+  +                  count += 1
+  +              elsif i =~ /[AEIOUaeiou]/
+  +                  if word[0] =~ /[AEIOUaeiou]/
+  +                    output << "#{word}way"
+  +                  elsif word[0..count] =~ /[^AEIOUaeiou]{#{count}}/
+  +                    output << "#{word[count..-1]}#{word[0..count-1]}ay"
+  +                  else
+  +                    output << "#{word[1..-1]}#{word[0]}ay"
+  +                  end
+  +                  count = 0
+  +
+  +                  break
+  +              end
+  +            end
+  +        end
+  +
+  +      return output.join(" ")
+  +
+  +    end
   +
   +end
