@@ -6,7 +6,7 @@ class PigLatinizer
     @text = text.downcase
     vowel ='aeiou'
     text = text.split()
-      text.collect do |word|
+      text.each do |word|
         if word.length == 1
             "#{word}way"
         elsif vowel.include? word[0].downcase
